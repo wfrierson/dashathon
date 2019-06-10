@@ -1,7 +1,9 @@
 language: python
 python:
   - "3.6"
-# command to install dependencies
+before_install:
+  - "pip install -U pip"
+  - "python setup.py install"
 script: python dashathon/tests/test_scraping_methods.py
 branches:
   only:
