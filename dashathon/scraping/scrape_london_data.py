@@ -1,5 +1,5 @@
-from .scraping_methods import scrape_london_marathon_urls
-from .scraping_methods import scrape_london_marathon
+from dashathon.scraping.scraping_methods import scrape_london_marathon_urls
+from dashathon.scraping.scraping_methods import scrape_london_marathon
 
 headers_london = ['year', 'bib', 'age_group', 'gender', 'country', 'overall', 'rank_gender',
                   'rank_age_group', '5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k', '40k', 'finish']
