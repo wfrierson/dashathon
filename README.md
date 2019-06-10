@@ -9,9 +9,9 @@ dashathon/
   |- dashathon/
      |- dashboards/
      |- data/
-		|- combined_data/
-		|- external_data/
-		|- scraped_data/
+        |- combined_data/
+        |- external_data/
+        |- scraped_data/
      |- scraping/
         |-merging_methods.py
         |-scrape_berlin_data.py
