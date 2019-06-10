@@ -1,21 +1,21 @@
 import pandas as pd
 import os
 
-from web_scraping.scraping_methods import strip_special_latin_char
-from web_scraping.scraping_methods import strip_accents
-from web_scraping.scraping_methods import convert_to_ascii
-from web_scraping.scraping_methods import row_count_csv
-from web_scraping.scraping_methods import get_last_line_csv
-from web_scraping.scraping_methods import delete_last_line_csv
-from web_scraping.scraping_methods import scrape_chicago_marathon_urls
-from web_scraping.scraping_methods import scrape_chicago_runner_details
-from web_scraping.scraping_methods import scrape_chicago_marathon
-from web_scraping.scraping_methods import scrape_london_marathon_urls
-from web_scraping.scraping_methods import scrape_london_runner_details
-from web_scraping.scraping_methods import scrape_london_marathon
-from web_scraping.scraping_methods import scrape_berlin_marathon_urls
-from web_scraping.scraping_methods import scrape_berlin_runner_details
-from web_scraping.scraping_methods import scrape_berlin_marathon
+from scraping.scraping_methods import strip_special_latin_char
+from scraping.scraping_methods import strip_accents
+from scraping.scraping_methods import convert_to_ascii
+from scraping.scraping_methods import row_count_csv
+from scraping.scraping_methods import get_last_line_csv
+from scraping.scraping_methods import delete_last_line_csv
+from scraping.scraping_methods import scrape_chicago_marathon_urls
+from scraping.scraping_methods import scrape_chicago_runner_details
+from scraping.scraping_methods import scrape_chicago_marathon
+from scraping.scraping_methods import scrape_london_marathon_urls
+from scraping.scraping_methods import scrape_london_runner_details
+from scraping.scraping_methods import scrape_london_marathon
+from scraping.scraping_methods import scrape_berlin_marathon_urls
+from scraping.scraping_methods import scrape_berlin_runner_details
+from scraping.scraping_methods import scrape_berlin_marathon
 
 headers_chicago = ['year', 'bib', 'age_group', 'gender', 'city', 'state', 'country', 'overall', 'rank_gender',
                    'rank_age_group', '5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k', '40k', 'finish']
