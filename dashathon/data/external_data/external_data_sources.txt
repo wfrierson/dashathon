@@ -1,10 +1,22 @@
 # llimllib_boston_results_2013.csv
-https://github.com/llimllib/bostonmarathon/blob/master/results/2013/results.csv
+https://github.com/llimllib/bostonmarathon/raw/master/results/2013/results.csv
 
 # llimllib_boston_results_2014.csv
-https://github.com/llimllib/bostonmarathon/blob/master/results/2014/results.csv
+https://github.com/llimllib/bostonmarathon/raw/master/results/2014/results.csv
 
 # rojour_boston_results_2015.csv
 # rojour_boston_results_2016.csv
 # rojour_boston_results_2017.csv
 https://www.kaggle.com/rojour/boston-results/downloads/finishers-boston-marathon-2015-2016-2017.zip/4
+
+# andreanr_nyc_results_2015.csv
+https://github.com/andreanr/NYC-Marathon/raw/master/data/clean/marathon_2015.csv
+
+# andreanr_nyc_results_2016.csv
+https://github.com/andreanr/NYC-Marathon/raw/master/data/clean/marathon_2016.csv
+
+# andreanr_nyc_results_2017.csv
+https://github.com/andreanr/NYC-Marathon/raw/master/data/clean/marathon_2017.csv
+
+# andreanr_nyc_results_2018.csv
+https://github.com/andreanr/NYC-Marathon/raw/master/data/clean/marathon_2018.csv
