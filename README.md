@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/wfrierson/dashathon.svg?branch=master)](https://travis-ci.org/wfrierson/dashathon)
+
 ### Organization of the project
 
 The project has the following structure:
