@@ -1,21 +1,6 @@
 import pandas as pd
 import os
-
-from scraping.scraping_methods import strip_special_latin_char
-from scraping.scraping_methods import strip_accents
-from scraping.scraping_methods import convert_to_ascii
-from scraping.scraping_methods import row_count_csv
-from scraping.scraping_methods import get_last_line_csv
-from scraping.scraping_methods import delete_last_line_csv
-from scraping.scraping_methods import scrape_chicago_marathon_urls
-from scraping.scraping_methods import scrape_chicago_runner_details
-from scraping.scraping_methods import scrape_chicago_marathon
-from scraping.scraping_methods import scrape_london_marathon_urls
-from scraping.scraping_methods import scrape_london_runner_details
-from scraping.scraping_methods import scrape_london_marathon
-from scraping.scraping_methods import scrape_berlin_marathon_urls
-from scraping.scraping_methods import scrape_berlin_runner_details
-from scraping.scraping_methods import scrape_berlin_marathon
+import dashathon.scraping.scraping_methods as scrape
 
 headers_chicago = ['year', 'bib', 'age_group', 'gender', 'city', 'state', 'country', 'overall', 'rank_gender',
                    'rank_age_group', '5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k', '40k', 'finish']
@@ -31,39 +16,39 @@ for unavailable_column in ['city', 'state', 'overall']:
 
 def test_strip_special_latin_char():
     test_string = 'thƝis ƛis a teōst: ÆæœƔþðßøÞĿØĳƧaÐŒƒ¿Ǣ'
-    assert strip_special_latin_char(test_string) == 'this is a test: AEaeoethdssoTHOaDOEf'
+    assert scrape.strip_special_latin_char(test_string) == 'this is a test: AEaeoethdssoTHOaDOEf'
 
 
 def test_strip_accents():
     test_string = 'thîš ìŝ ã tëśt'
-    assert strip_accents(test_string) == 'this is a test'
+    assert scrape.strip_accents(test_string) == 'this is a test'
 
 
 def test_convert_to_ascii():
     test_string = 'thƝîš ƛìŝ ã tëśt: ÆæœƔþðßøÞĿØĳƧaÐŒƒ¿Ǣ'
-    assert convert_to_ascii(test_string) == 'this is a test: AEaeoethdssoTHOaDOEfAE'
+    assert scrape.convert_to_ascii(test_string) == 'this is a test: AEaeoethdssoTHOaDOEfAE'
 
 
 def test_row_count_csv():
-    assert row_count_csv('test_file.txt') == 1
+    assert scrape.row_count_csv('test_file.txt') == 1
 
 
 def test_get_last_line_csv():
-    assert get_last_line_csv('test_file.txt') == 'this is the first line.\n'
+    assert scrape.get_last_line_csv('test_file.txt') == 'this is the first line.\n'
 
 
 def test_delete_last_line_csv():
     # Add dummy line of text
     open('test_delete_last_line.txt', 'wb').write(open('test_file.txt', 'rb').read())
-    original_row_count = row_count_csv('test_delete_last_line.txt')
-    delete_last_line_csv('test_delete_last_line.txt')
+    original_row_count = scrape.row_count_csv('test_delete_last_line.txt')
+    scrape.delete_last_line_csv('test_delete_last_line.txt')
     deleted_row_count = os.stat('test_delete_last_line.txt').st_size
     assert original_row_count == 1 and deleted_row_count == 0
 
 
 # noinspection PyTypeChecker
 def test_scrape_chicago_marathon_urls():
-    scraped_df = scrape_chicago_marathon_urls(url='http://chicago-history.r.mikatiming.de/2015/', year=2017,
+    scraped_df = scrape.scrape_chicago_marathon_urls(url='http://chicago-history.r.mikatiming.de/2015/', year=2017,
                                               event="MAR_999999107FA30900000000A1", gender='M',
                                               num_results_per_page=1000, unit_test_ind=True)
     expected_scraped_df = pd.DataFrame(columns=['urls', 'city', 'state'])
@@ -77,7 +62,7 @@ def test_scrape_chicago_marathon_urls():
 
 # noinspection PyTypeChecker
 def test_scrape_london_marathon_urls():
-    scraped_df = scrape_london_marathon_urls(url='http://results-2017.virginmoneylondonmarathon.com/2017/',
+    scraped_df = scrape.scrape_london_marathon_urls(url='http://results-2017.virginmoneylondonmarathon.com/2017/',
                                              event='MAS', year=2017, gender='M', num_results_per_page=1000,
                                              unit_test_ind=True)
     expected_scraped_df = pd.DataFrame(columns=['urls'])
@@ -90,7 +75,7 @@ def test_scrape_london_marathon_urls():
 
 # noinspection PyTypeChecker
 def test_scrape_berlin_marathon_urls():
-    scraped_df = scrape_berlin_marathon_urls(url='http://results.scc-events.com/2016/',
+    scraped_df = scrape.scrape_berlin_marathon_urls(url='http://results.scc-events.com/2016/',
                                              event='MAL_99999905C9AF3F0000000945', year=2016, gender='M',
                                              num_results_per_page=100, unit_test_ind=True)
     expected_scraped_df = pd.DataFrame(columns=['urls'])
@@ -115,7 +100,7 @@ def test_scrape_chicago_runner_details():
                                          values='time', aggfunc='first').reset_index()
     expected_scraped_df = expected_scraped_df.reindex(headers_chicago, axis='columns')
 
-    scraped_df = scrape_chicago_runner_details(url=('http://chicago-history.r.mikatiming.de/2015/?content=detail&fpid='
+    scraped_df = scrape.scrape_chicago_runner_details(url=('http://chicago-history.r.mikatiming.de/2015/?content=detail&fpid='
                                                     'search&pid=search&idp=999999107FA309000019D3BA&lang=EN_CAP&event='
                                                     'MAR_999999107FA309000000008D&lang=EN_CAP&search%5Bstart_no%5D='
                                                     '54250&search_event=ALL_EVENT_GROUP_2016'),
@@ -139,7 +124,7 @@ def test_scrape_london_runner_details():
                                          aggfunc='first').reset_index()
     expected_scraped_df = expected_scraped_df.reindex(headers_london, axis='columns')
 
-    scraped_df = scrape_london_runner_details(url=('http://results-2017.virginmoneylondonmarathon.com/2017/?content='
+    scraped_df = scrape.scrape_london_runner_details(url=('http://results-2017.virginmoneylondonmarathon.com/2017/?content='
                                                    'detail&fpid=list&pid=list&idp=9999990F5ECC85000024C3F9&lang='
                                                    'EN_CAP&event=MAS&num_results=1000&search%5Bage_class%5D='
                                                    '%25&search%5Bsex%5D=M&search_event=MAS'), year=2017, gender='M')
@@ -161,7 +146,7 @@ def test_scrape_berlin_runner_details():
     expected_scraped_df = pd.DataFrame.from_dict(test_runner_dict)
     expected_scraped_df = expected_scraped_df.reindex(headers_berlin, axis='columns')
 
-    scraped_df = scrape_berlin_runner_details(url=('http://results.scc-events.com/2016/?content=detail&fpid='
+    scraped_df = scrape.scrape_berlin_runner_details(url=('http://results.scc-events.com/2016/?content=detail&fpid='
                                                    'search&pid=search&idp=99999905C9AF460000404FFD&lang=EN&event='
                                                    'MAL_99999905C9AF3F0000000945&search%5Bstart_no%5D=30529'
                                                    '&search_sort=name&search_event=MAL_99999905C9AF3F0000000945'),
@@ -178,11 +163,11 @@ def test_scrape_berlin_runner_details():
 
 # noinspection PyTypeChecker
 def test_scrape_chicago_marathon():
-    scraped_df_url = scrape_chicago_marathon_urls(url='http://chicago-history.r.mikatiming.de/2015/', year=2017,
+    scraped_df_url = scrape.scrape_chicago_marathon_urls(url='http://chicago-history.r.mikatiming.de/2015/', year=2017,
                                                   event="MAR_999999107FA30900000000A1", gender='M',
                                                   num_results_per_page=1000, unit_test_ind=True)
 
-    scrape_chicago_marathon(path_input='test_input_chicago.csv', path_output='test_output_chicago.csv',
+    scrape.scrape_chicago_marathon(path_input='test_input_chicago.csv', path_output='test_output_chicago.csv',
                             path_error='test_error_log_chicago.csv', gender='M', headers=headers_chicago,
                             df_urls=scraped_df_url)
 
@@ -213,11 +198,11 @@ def test_scrape_chicago_marathon():
 
 # noinspection PyTypeChecker
 def test_scrape_london_marathon():
-    scraped_df_url = scrape_london_marathon_urls(url='http://results-2017.virginmoneylondonmarathon.com/2017/',
+    scraped_df_url = scrape.scrape_london_marathon_urls(url='http://results-2017.virginmoneylondonmarathon.com/2017/',
                                                  event='MAS', year=2017, gender='M', num_results_per_page=1000,
                                                  unit_test_ind=True)
 
-    scrape_london_marathon(path_input='test_input_london.csv',
+    scrape.scrape_london_marathon(path_input='test_input_london.csv',
                            path_output='test_output_london.csv',
                            path_error='test_error_log_london.csv',
                            year=2017, gender='M', headers=headers_london, df_urls=scraped_df_url)
@@ -249,11 +234,11 @@ def test_scrape_london_marathon():
 
 # noinspection PyTypeChecker
 def test_scrape_berlin_marathon():
-    scraped_df_url = scrape_berlin_marathon_urls(url='http://results.scc-events.com/2016/',
+    scraped_df_url = scrape.scrape_berlin_marathon_urls(url='http://results.scc-events.com/2016/',
                                                  event='MAL_99999905C9AF3F0000000945', year=2016, gender='M',
                                                  num_results_per_page=100, unit_test_ind=True)
 
-    scrape_berlin_marathon(path_input='test_input_berlin.csv', path_output='test_output_berlin.csv',
+    scrape.scrape_berlin_marathon(path_input='test_input_berlin.csv', path_output='test_output_berlin.csv',
                            path_error='test_error_log_berlin.csv', year=2016, gender='M', headers=headers_berlin,
                            df_urls=scraped_df_url)
 
