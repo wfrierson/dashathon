@@ -10,11 +10,11 @@ This project is a dashboard intended to help runners train better for upcoming m
 Primarily, this tool is targeted towards users preparing for major marathons globally and want to understand where they stand per their current preparation relative to runners from previous years. Users are not expected to bring any computing or programming background to use this product; only have to feed in the summary statistics corresponding to their run. The UI is to be intuitive enough that the user understands how to interact with the tool. The primary user base is:
 ##### The Novice Runner:
 
-The runner has just started preparing for long run marathons and wants to track their performance, time it and better their run time. Their target is finishing the marathon.
+The runner has just started preparing for long run marathons and wants to track their performance, time it and better their run time. Their target is finishing the marathon. Their focus is distance and how they compare to an average performer in the marathon.
 
 ##### The Trained Runner:
 
-The runner is an experienced marathon runner and wants to use the tool to improve their standing among the top performers in the marathons. They want to understand where they lie relative to others following their running strategy, which time splits they want to improve in, and what their fatigue zones are.
+The runner is an experienced marathon runner and wants to use the tool to improve their standing among the top performers in the marathons. They want to understand where they lie relative to the top 10 percentile following their running strategy, which time splits they want to improve in, and what their fatigue zones are. Their focus is time and strategy.
 
 ### Data sources
 
