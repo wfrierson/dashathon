@@ -147,3 +147,7 @@ def test_process_london_data():
 
 def test_process_berlin_data():
     assert merge.process_berlin_data().shape == (73547, 21)
+
+
+def test_process_all_data():
+    assert merge.process_all_data().shape == (716166, 26)

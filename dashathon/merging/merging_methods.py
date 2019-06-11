@@ -506,3 +506,63 @@ def process_berlin_data():
     berlin_results['host_city'] = 'Berlin'
 
     return berlin_results
+
+
+def process_all_data():
+    """
+    Method to import, transform, and combine all Marathon data.
+
+    :return: DataFrame of all transformed and combined Marathon data.
+    :rtype: pandas.DataFrame
+    """
+    boston_results = process_boston_data()
+    nyc_results = process_nyc_data()
+    chicago_results = process_chicago_data()
+    london_results = process_london_data()
+    berlin_results = process_berlin_data()
+
+    dashathon_data = boston_results.append([nyc_results, chicago_results], ignore_index=True)
+
+    london_berlin_results = london_results.append(berlin_results, ignore_index=True)
+
+    london_berlin_results['age'] = pd.np.nan
+    london_berlin_results['age_bucket'] = None
+    london_berlin_results['citizen'] = None
+    london_berlin_results['division'] = None
+    london_berlin_results['genderdiv'] = None
+    london_berlin_results['name'] = None
+    london_berlin_results['official_time'] = None
+    london_berlin_results['pace'] = None
+
+    london_berlin_results = london_berlin_results.rename(columns={'age_group': 'age_range',
+                                                                  'rank_gender': 'gender_place'})
+    london_berlin_results = london_berlin_results.drop(['rank_age_group', 'finish'], axis=1)
+
+    dashathon_data = dashathon_data.append(london_berlin_results, ignore_index=True)
+
+    # Aggregated changes
+    dashathon_data['genderdiv'] = dashathon_data['genderdiv'].astype('float64')
+    dashathon_data['official_time'] = dashathon_data['official_time'].astype('float64')
+
+    # Dropping age_bucket
+    dashathon_data = dashathon_data.drop(columns=['age_bucket'])
+
+    # Creating a new age_range column on basis of age
+    dashathon_data = dashathon_data.drop(columns={'age_range'})
+    age_map = pd.read_csv('../merging/age_map.csv')
+    dashathon_data = pd.merge(dashathon_data, age_map, on='age', how='left')
+
+    # Make gender consistent across all datasets
+    dashathon_data['gender'] = dashathon_data['gender'].replace('W', 'F')
+
+    # Dropping pace column for now
+    dashathon_data = dashathon_data.drop(columns={'pace'})
+
+    # Converting three letter country names to full country names
+    country_code = pd.read_csv('../merging/country_code_web.csv', usecols=['country', 'code'], encoding='latin-1')
+    country_code = country_code.rename(columns={'country': 'country_name'})
+    dashathon_data = pd.merge(dashathon_data, country_code, left_on='country', right_on='code', how='left')
+    dashathon_data.country_name = dashathon_data.country_name.fillna(dashathon_data.country, inplace=True)
+    dashathon_data = dashathon_data.drop(['country'], axis=1)
+
+    return dashathon_data
