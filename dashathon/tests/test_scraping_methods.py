@@ -49,8 +49,8 @@ def test_delete_last_line_csv():
 # noinspection PyTypeChecker
 def test_scrape_chicago_marathon_urls():
     scraped_df = scrape.scrape_chicago_marathon_urls(url='http://chicago-history.r.mikatiming.de/2015/', year=2017,
-                                              event="MAR_999999107FA30900000000A1", gender='M',
-                                              num_results_per_page=1000, unit_test_ind=True)
+                                                     event="MAR_999999107FA30900000000A1", gender='M',
+                                                     num_results_per_page=1000, unit_test_ind=True)
     expected_scraped_df = pd.DataFrame(columns=['urls', 'city', 'state'])
     expected_scraped_df.loc[0] = [('http://chicago-history.r.mikatiming.de/2015/?content=detail&fpid=list&pid=list&idp='
                                    '999999107FA30900001CF732&lang=EN_CAP&event=MAR_999999107FA30900000000A1&lang=EN_CAP'
@@ -63,8 +63,8 @@ def test_scrape_chicago_marathon_urls():
 # noinspection PyTypeChecker
 def test_scrape_london_marathon_urls():
     scraped_df = scrape.scrape_london_marathon_urls(url='http://results-2017.virginmoneylondonmarathon.com/2017/',
-                                             event='MAS', year=2017, gender='M', num_results_per_page=1000,
-                                             unit_test_ind=True)
+                                                    event='MAS', year=2017, gender='M', num_results_per_page=1000,
+                                                    unit_test_ind=True)
     expected_scraped_df = pd.DataFrame(columns=['urls'])
     expected_scraped_df.loc[0] = [('http://results-2017.virginmoneylondonmarathon.com/2017/?content=detail&fpid=list&'
                                    'pid=list&idp=9999990F5ECC85000024C3F9&lang=EN_CAP&event=MAS&num_results=1000&search'
@@ -76,8 +76,8 @@ def test_scrape_london_marathon_urls():
 # noinspection PyTypeChecker
 def test_scrape_berlin_marathon_urls():
     scraped_df = scrape.scrape_berlin_marathon_urls(url='http://results.scc-events.com/2016/',
-                                             event='MAL_99999905C9AF3F0000000945', year=2016, gender='M',
-                                             num_results_per_page=100, unit_test_ind=True)
+                                                    event='MAL_99999905C9AF3F0000000945', year=2016, gender='M',
+                                                    num_results_per_page=100, unit_test_ind=True)
     expected_scraped_df = pd.DataFrame(columns=['urls'])
     expected_scraped_df.loc[0] = [('http://results.scc-events.com/2016/?content=detail&fpid=list&pid=list&idp='
                                    '00001705C9AF4A0000412F85&lang=DE&event=MAL_99999905C9AF3F0000000945&num_results='
@@ -100,11 +100,11 @@ def test_scrape_chicago_runner_details():
                                          values='time', aggfunc='first').reset_index()
     expected_scraped_df = expected_scraped_df.reindex(headers_chicago, axis='columns')
 
-    scraped_df = scrape.scrape_chicago_runner_details(url=('http://chicago-history.r.mikatiming.de/2015/?content=detail&fpid='
-                                                    'search&pid=search&idp=999999107FA309000019D3BA&lang=EN_CAP&event='
-                                                    'MAR_999999107FA309000000008D&lang=EN_CAP&search%5Bstart_no%5D='
-                                                    '54250&search_event=ALL_EVENT_GROUP_2016'),
-                                               gender='M', city='Portland', state='OR')
+    scraped_df = scrape.scrape_chicago_runner_details(url=('http://chicago-history.r.mikatiming.de/2015/?content=detail'
+                                                           '&fpid=search&pid=search&idp=999999107FA309000019D3BA&lang='
+                                                           'EN_CAP&event=MAR_999999107FA309000000008D&lang=EN_CAP&'
+                                                           'search%5Bstart_no%5D=54250&search_event=ALL_EVENT_GROUP_'
+                                                           '2016'), gender='M', city='Portland', state='OR')
 
     assert scraped_df.equals(expected_scraped_df) and all(scraped_df.columns.values ==
                                                           expected_scraped_df.columns.values)
@@ -124,10 +124,11 @@ def test_scrape_london_runner_details():
                                          aggfunc='first').reset_index()
     expected_scraped_df = expected_scraped_df.reindex(headers_london, axis='columns')
 
-    scraped_df = scrape.scrape_london_runner_details(url=('http://results-2017.virginmoneylondonmarathon.com/2017/?content='
-                                                   'detail&fpid=list&pid=list&idp=9999990F5ECC85000024C3F9&lang='
-                                                   'EN_CAP&event=MAS&num_results=1000&search%5Bage_class%5D='
-                                                   '%25&search%5Bsex%5D=M&search_event=MAS'), year=2017, gender='M')
+    scraped_df = scrape.scrape_london_runner_details(url=('http://results-2017.virginmoneylondonmarathon.com/2017/'
+                                                          '?content=detail&fpid=list&pid=list&idp=9999990F5ECC85000024C'
+                                                          '3F9&lang=EN_CAP&event=MAS&num_results=1000&search%5B'
+                                                          'age_class%5D=%25&search%5Bsex%5D=M&search_event=MAS'),
+                                                     year=2017, gender='M')
     # pd.DataFrame.equals is behaving strangely. For ease, casting the scraped values as integers, which they are
     # anyway.
     for split_time in headers_london[8:]:
@@ -147,10 +148,10 @@ def test_scrape_berlin_runner_details():
     expected_scraped_df = expected_scraped_df.reindex(headers_berlin, axis='columns')
 
     scraped_df = scrape.scrape_berlin_runner_details(url=('http://results.scc-events.com/2016/?content=detail&fpid='
-                                                   'search&pid=search&idp=99999905C9AF460000404FFD&lang=EN&event='
-                                                   'MAL_99999905C9AF3F0000000945&search%5Bstart_no%5D=30529'
-                                                   '&search_sort=name&search_event=MAL_99999905C9AF3F0000000945'),
-                                              year=2016, gender='M')
+                                                          'search&pid=search&idp=99999905C9AF460000404FFD&lang=EN&event'
+                                                          '=MAL_99999905C9AF3F0000000945&search%5Bstart_no%5D=30529'
+                                                          '&search_sort=name&search_event='
+                                                          'MAL_99999905C9AF3F0000000945'), year=2016, gender='M')
     # pd.DataFrame.equals is behaving strangely. For ease, casting the scraped values as integers, which they are
     # anyway.
     for split_time in headers_berlin[7:]:
@@ -164,12 +165,12 @@ def test_scrape_berlin_runner_details():
 # noinspection PyTypeChecker
 def test_scrape_chicago_marathon():
     scraped_df_url = scrape.scrape_chicago_marathon_urls(url='http://chicago-history.r.mikatiming.de/2015/', year=2017,
-                                                  event="MAR_999999107FA30900000000A1", gender='M',
-                                                  num_results_per_page=1000, unit_test_ind=True)
+                                                         event="MAR_999999107FA30900000000A1", gender='M',
+                                                         num_results_per_page=1000, unit_test_ind=True)
 
     scrape.scrape_chicago_marathon(path_input='test_input_chicago.csv', path_output='test_output_chicago.csv',
-                            path_error='test_error_log_chicago.csv', gender='M', headers=headers_chicago,
-                            df_urls=scraped_df_url)
+                                   path_error='test_error_log_chicago.csv', gender='M', headers=headers_chicago,
+                                   df_urls=scraped_df_url)
 
     scraped_df = pd.read_csv('test_output_chicago.csv', header=0, sep='|')
     for split_time in headers_chicago[10:]:
@@ -199,13 +200,12 @@ def test_scrape_chicago_marathon():
 # noinspection PyTypeChecker
 def test_scrape_london_marathon():
     scraped_df_url = scrape.scrape_london_marathon_urls(url='http://results-2017.virginmoneylondonmarathon.com/2017/',
-                                                 event='MAS', year=2017, gender='M', num_results_per_page=1000,
-                                                 unit_test_ind=True)
+                                                        event='MAS', year=2017, gender='M', num_results_per_page=1000,
+                                                        unit_test_ind=True)
 
-    scrape.scrape_london_marathon(path_input='test_input_london.csv',
-                           path_output='test_output_london.csv',
-                           path_error='test_error_log_london.csv',
-                           year=2017, gender='M', headers=headers_london, df_urls=scraped_df_url)
+    scrape.scrape_london_marathon(path_input='test_input_london.csv', path_output='test_output_london.csv',
+                                  path_error='test_error_log_london.csv', year=2017, gender='M', headers=headers_london,
+                                  df_urls=scraped_df_url)
 
     scraped_df = pd.read_csv('test_output_london.csv', header=0, sep='|')
     for split_time in headers_london[8:]:
@@ -235,12 +235,12 @@ def test_scrape_london_marathon():
 # noinspection PyTypeChecker
 def test_scrape_berlin_marathon():
     scraped_df_url = scrape.scrape_berlin_marathon_urls(url='http://results.scc-events.com/2016/',
-                                                 event='MAL_99999905C9AF3F0000000945', year=2016, gender='M',
-                                                 num_results_per_page=100, unit_test_ind=True)
+                                                        event='MAL_99999905C9AF3F0000000945', year=2016, gender='M',
+                                                        num_results_per_page=100, unit_test_ind=True)
 
     scrape.scrape_berlin_marathon(path_input='test_input_berlin.csv', path_output='test_output_berlin.csv',
-                           path_error='test_error_log_berlin.csv', year=2016, gender='M', headers=headers_berlin,
-                           df_urls=scraped_df_url)
+                                  path_error='test_error_log_berlin.csv', year=2016, gender='M', headers=headers_berlin,
+                                  df_urls=scraped_df_url)
 
     scraped_df = pd.read_csv('test_output_berlin.csv', header=0, sep='|')
     for split_time in headers_berlin[7:]:
