@@ -59,14 +59,14 @@ def convert_string_to_seconds(time_str):
     """
     Convert time in a string format 'HH:MM:SS' into (int) seconds.
 
-    :param time_str: Time in a string format 'HH:MM:SS'
+    :param str time_str: Time in a string format 'HH:MM:SS'
     :return: Time expressed in seconds
     :rtype: int
     """
-    try:
+    if type(time_str).__name__ == 'str':
         hours_str, minutes_str, seconds_str = time_str.split(':')
         return int(hours_str) * 3600 + int(minutes_str) * 60 + int(seconds_str)
-    except:
+    else:
         return np.nan
 
 
