@@ -124,4 +124,3 @@ def test_combine_boston_data():
     df_test = df_test.reindex(columns=headers)
 
     assert df_expected.equals(df_test)
-
