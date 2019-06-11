@@ -28,5 +28,5 @@ This component takes care of combining the results from the Analytics Manager wi
 * Week 2: Getting familiar with our data structure, setting up the final goal and performing EDA to understand our data better and explore possibilities. Scraping and Merging of data ongoing.
 * Week 3: Create use case visualisations to understand how Dash works. Exploring other technological tools and possibilities. Scraping and Merging of data ongoing.
 * Week 4: Work on creating a usable dashboard for multiple use cases and working on the code that goes behind the analytics of the data we have. Scraping and Merging of data ongoing.
-* Week 5:
-* Week 6
+* Week 5: Work on Dashboard, including important metrics, working on better user experience and better statistics reflecting the strategy, timing and distance for a run. Scraping and Merging of data ongoing.
+* Week 6:Working on making final changes, aligning changes, unit testing, making our code scalable for the larger datasets and finishing our final product.
