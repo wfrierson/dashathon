@@ -7,6 +7,7 @@ before_install:
 script: 
   - python dashathon/tests/test_scraping_methods.py
   - python dashathon/tests/test_merging_methods.py
+  - python dashathon/tests/test_dash_functions.py
 branches:
   only:
     - master
