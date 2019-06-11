@@ -215,3 +215,25 @@ def combine_boston_data(list_dfs):
     df_combine.drop(['pace', 'Proj Time', 'Unnamed: 0'], axis=1, inplace=True)
 
     return df_combine
+
+
+def pipe_reader(input_file):
+    """
+    Read datasets without pandas read_csv when we have a pipe delimiter dataset
+    with commas inside columns
+
+    :param str input_file: File path
+    :return: The pipe delimited file as a DataFrame
+    :rtype: pandas.DataFrame
+    """
+    with open(input_file, 'r') as f:
+        temp_file = f.read()
+    temp_file = temp_file.split('\n')
+    lis = []
+    for row in temp_file:
+        row = row.split('|')
+        if len(row) == 20:
+            lis.append(row)
+    temp_df = pd.DataFrame(lis, columns=lis[0])
+    temp_df = temp_df.drop(0, axis=0)
+    return temp_df
