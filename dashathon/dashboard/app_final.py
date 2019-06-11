@@ -8,7 +8,7 @@ import dash
 from dash.dependencies import Input, Output, State
 import dash_core_components as dcc
 import dash_html_components as html
-import dash_functions
+import dashathon.dashboard.dash_functions as dash_functions
 
 SECONDS = 60.0
 
@@ -16,7 +16,7 @@ EXTERNAL_STYLESHEETS = ["https://codepen.io/chriddyp/pen/bWLwgP.css"]
 
 app = dash.Dash(__name__, external_stylesheets=EXTERNAL_STYLESHEETS)
 
-df = pd.read_csv("bostonnycchicago.csv")
+df = pd.read_csv('../data/combined_data/bostonnycchicago.csv')
 
 # pull the list of demographic variables from the data itself
 # include 'all' so user can view data without slicing it
