@@ -26,6 +26,7 @@ The participation rate in marathons is increasing year by year, rendering a huge
 * presentations : contains the presentations related to the project
 
 ## License Information
+The MIT License is a permissive free software license originating at the Massachusetts Institute of Technology (MIT). As a permissive license, it puts only very limited restriction on reuse and has therefore an excellent license compatibility. For detailed description of the contents of license please refer to the file LICENSE.
 
 
 ## Organization of the project
