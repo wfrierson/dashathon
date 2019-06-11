@@ -60,7 +60,6 @@ dashathon/
 │   │   │-  dash_functions.py
 │   │   │-  __init__.py
 │   │    
-│   │           
 │   ├───data/
 │   │   ├───combined_data/
 │   │   │-      all_marathon_results.csv
