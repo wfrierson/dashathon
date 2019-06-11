@@ -23,3 +23,6 @@ boston_results_2017 = merge.transform_rojour_boston_data(df=rojour_boston_result
 # Combine Boston data
 boston_results = merge.combine_boston_data(list_dfs=[boston_results_2013, boston_results_2014, boston_results_2015,
                                                      boston_results_2016, boston_results_2017])
+
+# Export combined Boston data
+boston_results.to_csv('dashathon/data/combined_data/boston_all_years_nan.csv', sep=',', index=False, header=True)
