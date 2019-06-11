@@ -16,7 +16,7 @@ EXTERNAL_STYLESHEETS = ["https://codepen.io/chriddyp/pen/bWLwgP.css"]
 
 app = dash.Dash(__name__, external_stylesheets=EXTERNAL_STYLESHEETS)
 
-df = pd.read_csv("../data/combined_data/data_agg.csv")
+df = pd.read_csv("../data/combined_data/all_marathon_results.csv")
 
 # pull the list of demographic variables from the data itself
 # include 'all' so user can view data without slicing it
