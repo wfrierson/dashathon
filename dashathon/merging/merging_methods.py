@@ -63,10 +63,10 @@ def convert_string_to_seconds(time_str):
     :return: Time expressed in seconds
     :rtype: int
     """
-    if type(time_str).__name__ == 'str':
+    try:
         hours_str, minutes_str, seconds_str = time_str.split(':')
         return int(hours_str) * 3600 + int(minutes_str) * 60 + int(seconds_str)
-    else:
+    except:
         return np.nan
 
 
@@ -237,3 +237,272 @@ def pipe_reader(input_file):
     temp_df = pd.DataFrame(lis, columns=lis[0])
     temp_df = temp_df.drop(0, axis=0)
     return temp_df
+
+
+def process_boston_data():
+    """
+    Method to import, transform, and combine Boston Marathon data.
+
+    :return: DataFrame of transformed and combined Boston Marathon data.
+    :rtype: pandas.DataFrame
+    """
+    # Read in data
+    llimllib_boston_results_2013 = pd.read_csv('../data/external_data/llimllib_boston_results_2013.csv',
+                                               delimiter=',')
+    llimllib_boston_results_2014 = pd.read_csv('../data/external_data/llimllib_boston_results_2014.csv',
+                                               delimiter=',')
+    rojour_boston_results_2015 = pd.read_csv('../data/external_data/rojour_boston_results_2015.csv',
+                                             delimiter=',')
+    rojour_boston_results_2016 = pd.read_csv('../data/external_data/rojour_boston_results_2016.csv',
+                                             delimiter=',')
+    rojour_boston_results_2017 = pd.read_csv('../data/external_data/rojour_boston_results_2017.csv',
+                                             delimiter=',')
+
+    # Transform data
+    boston_results_2013 = transform_llimllib_boston_data(df=llimllib_boston_results_2013, year=2013)
+    boston_results_2014 = transform_llimllib_boston_data(df=llimllib_boston_results_2014, year=2014)
+    boston_results_2015 = transform_rojour_boston_data(df=rojour_boston_results_2015, year=2015)
+    boston_results_2016 = transform_rojour_boston_data(df=rojour_boston_results_2016, year=2016)
+    boston_results_2017 = transform_rojour_boston_data(df=rojour_boston_results_2017, year=2017)
+
+    # Combine Boston data
+    boston_results = combine_boston_data(list_dfs=[boston_results_2013, boston_results_2014, boston_results_2015,
+                                                   boston_results_2016, boston_results_2017])
+
+    # Append host city to distinguish among other marathon results
+    boston_results['host_city'] = 'Boston'
+
+    # Removing gender 'W' from bib in boston base
+    boston_results.bib = boston_results.bib.str.replace('W', '')
+
+    return boston_results
+
+
+def process_nyc_data():
+    """
+    Method to import, transform, and combine NYC Marathon data.
+
+    :return: DataFrame of transformed and combine NYC Marathon data.
+    :rtype: pandas.DataFrame
+    """
+    andreanr_nyc_results_2015 = pd.read_csv('../data/external_data/andreanr_nyc_results_2015.csv')
+    andreanr_nyc_results_2016 = pd.read_csv('../data/external_data/andreanr_nyc_results_2016.csv')
+    andreanr_nyc_results_2017 = pd.read_csv('../data/external_data/andreanr_nyc_results_2017.csv')
+    andreanr_nyc_results_2018 = pd.read_csv('../data/external_data/andreanr_nyc_results_2018.csv')
+
+    # Merging all nyc datasets first
+    andreanr_nyc_results = andreanr_nyc_results_2015.append([andreanr_nyc_results_2016, andreanr_nyc_results_2017,
+                                                             andreanr_nyc_results_2018], ignore_index=True)
+
+    # Removing records with missing split times
+    headers_nyc_splits = ['splint_10k', 'splint_15k', 'splint_20k', 'splint_25k', 'splint_30k', 'splint_35k',
+                          'splint_40k', 'splint_5k', 'splint_half', 'official_time']
+    andreanr_nyc_results = andreanr_nyc_results.dropna(subset=headers_nyc_splits + ['age'])
+
+    # Consistent age
+    andreanr_nyc_results.age = andreanr_nyc_results.age.astype('int64')
+
+    # Converting HH:MM:SS to seconds
+    for header in headers_nyc_splits:
+        andreanr_nyc_results[header] = andreanr_nyc_results[header].apply(convert_string_to_seconds)
+
+    # Assuming na values for absent columns in nyc data
+    andreanr_nyc_results['citizen'] = None
+    andreanr_nyc_results['division'] = None
+    andreanr_nyc_results['genderdiv'] = None
+    andreanr_nyc_results['age_bucket'] = None
+    andreanr_nyc_results['age_range'] = None
+
+    # Extracting and renaming relevant columns
+    andreanr_nyc_results = andreanr_nyc_results[['splint_10k', 'splint_15k', 'splint_20k', 'splint_25k', 'splint_30k',
+                                                 'splint_35k', 'splint_40k', 'splint_5k', 'age', 'bib', 'citizen',
+                                                 'city', 'country', 'division', 'gender', 'place_gender', 'genderdiv',
+                                                 'splint_half', 'name', 'official_time', 'place_overall',
+                                                 'pace_per_mile', 'state', 'year', 'age_range', 'age_bucket']]
+
+    # Pace_per_mile of NYC data is assumed to be same as pace of Boston data
+    andreanr_nyc_results = andreanr_nyc_results.rename(columns={"splint_10k": "10k", "splint_15k": "15k",
+                                                                "splint_20k": "20k", "splint_25k": "25k",
+                                                                "splint_30k": "30k", "splint_35k": "35k",
+                                                                "splint_40k": "40k", "splint_5k": "5k",
+                                                                "place_gender": "gender_place", "splint_half": "half",
+                                                                "place_overall": "overall", "pace_per_mile": "pace"})
+
+    # Adding host city
+    andreanr_nyc_results['host_city'] = 'NYC'
+
+    return andreanr_nyc_results
+
+
+def process_chicago_data():
+    """
+    Method to import, transform, and combine Chicago Marathon data.
+
+    :return: DataFrame of transformed and combined Chicago Marathon data.
+    :rtype: pandas.DataFrame
+    """
+    chi14m = pipe_reader('../data/scraped_data/chicago_marathon_2014_M.csv')
+    chi14w = pipe_reader('../data/scraped_data/chicago_marathon_2014_W.csv')
+    chi15m = pipe_reader('../data/scraped_data/chicago_marathon_2015_M.csv')
+    chi15w = pipe_reader('../data/scraped_data/chicago_marathon_2015_W.csv')
+    chi16m = pipe_reader('../data/scraped_data/chicago_marathon_2016_M.csv')
+    chi16w = pipe_reader('../data/scraped_data/chicago_marathon_2016_W.csv')
+    chi17m = pipe_reader('../data/scraped_data/chicago_marathon_2017_M.csv')
+    chi17w = pipe_reader('../data/scraped_data/chicago_marathon_2017_W.csv')
+
+    # Merging all chicago datasets first
+    chicago_results = chi14m.append([chi14w, chi15m, chi15w, chi16m, chi16w, chi17m, chi17w], ignore_index=True)
+
+    # Bringing around required datatypes
+    chicago_results[['year', 'bib', 'rank_gender', 'rank_age_group', 'overall']] = chicago_results[
+        ['year', 'bib', 'rank_gender', 'rank_age_group', 'overall']].astype('int64')
+    chicago_results[['5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k', '40k', 'finish']] = chicago_results[
+        ['5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k', '40k', 'finish']].astype('float64')
+
+    chicago_results['age'] = np.nan
+    chicago_results['age_bucket'] = None
+    chicago_results['citizen'] = None
+    chicago_results['division'] = None
+    chicago_results['genderdiv'] = None
+    chicago_results['name'] = None
+    chicago_results['official_time'] = None
+    chicago_results['pace'] = None
+    chicago_results['host_city'] = 'Chicago'
+
+    chicago_results = chicago_results.rename(columns={'age_group': 'age_range', 'rank_gender': 'gender_place'})
+    chicago_results = chicago_results.drop(['rank_age_group', 'finish'], axis=1)
+
+    return chicago_results
+
+
+def process_london_data():
+    """
+    Method to import, transform, and combine London Marathon data.
+
+    :return: DataFrame of transformed and combined London Marathon data.
+    :rtype: pandas.DataFrame
+    """
+    # Reading in the datasets
+    lon14m = pd.read_csv('../data/scraped_data/london_marathon_2014_M.csv',
+                         sep='|', usecols=['year', 'bib', 'age_group', 'gender', 'country', 'overall', 'rank_gender',
+                                           'rank_age_group', '5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k',
+                                           '40k',
+                                           'finish'])
+    lon14me = pd.read_csv('../data/scraped_data/london_marathon_2014_M_elite.csv', sep='|',
+                          usecols=['year', 'bib', 'age_group', 'gender', 'country', 'overall', 'rank_gender',
+                                   'rank_age_group', '5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k', '40k',
+                                   'finish'])
+    lon14w = pd.read_csv('../data/scraped_data/london_marathon_2014_W.csv', sep='|',
+                         usecols=['year', 'bib', 'age_group', 'gender', 'country', 'overall', 'rank_gender',
+                                  'rank_age_group', '5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k', '40k',
+                                  'finish'])
+    lon14we = pd.read_csv('../data/scraped_data/london_marathon_2014_W_elite.csv', sep='|',
+                          usecols=['year', 'bib', 'age_group', 'gender', 'country', 'overall', 'rank_gender',
+                                   'rank_age_group', '5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k', '40k',
+                                   'finish'])
+    lon15m = pd.read_csv('../data/scraped_data/london_marathon_2015_M.csv', sep='|',
+                         usecols=['year', 'bib', 'age_group', 'gender', 'country', 'overall', 'rank_gender',
+                                  'rank_age_group', '5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k', '40k',
+                                  'finish'])
+    lon15me = pd.read_csv('../data/scraped_data/london_marathon_2015_M_elite.csv', sep='|',
+                          usecols=['year', 'bib', 'age_group', 'gender', 'country', 'overall', 'rank_gender',
+                                   'rank_age_group', '5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k', '40k',
+                                   'finish'])
+    lon15w = pd.read_csv('../data/scraped_data/london_marathon_2015_W.csv', sep='|',
+                         usecols=['year', 'bib', 'age_group', 'gender', 'country', 'overall', 'rank_gender',
+                                  'rank_age_group', '5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k', '40k',
+                                  'finish'])
+    lon15we = pd.read_csv('../data/scraped_data/london_marathon_2015_W_elite.csv', sep='|',
+                          usecols=['year', 'bib', 'age_group', 'gender', 'country', 'overall', 'rank_gender',
+                                   'rank_age_group', '5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k', '40k',
+                                   'finish'])
+    lon16m = pd.read_csv('../data/scraped_data/london_marathon_2016_M.csv', sep='|',
+                         usecols=['year', 'bib', 'age_group', 'gender', 'country', 'overall', 'rank_gender',
+                                  'rank_age_group', '5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k', '40k',
+                                  'finish'])
+    lon16me = pd.read_csv('../data/scraped_data/london_marathon_2016_M_elite.csv', sep='|',
+                          usecols=['year', 'bib', 'age_group', 'gender', 'country', 'overall', 'rank_gender',
+                                   'rank_age_group', '5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k', '40k',
+                                   'finish'])
+    lon16w = pd.read_csv('../data/scraped_data/london_marathon_2016_W.csv', sep='|',
+                         usecols=['year', 'bib', 'age_group', 'gender', 'country', 'overall', 'rank_gender',
+                                  'rank_age_group', '5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k', '40k',
+                                  'finish'])
+    lon16we = pd.read_csv('../data/scraped_data/london_marathon_2016_W_elite.csv', sep='|',
+                          usecols=['year', 'bib', 'age_group', 'gender', 'country', 'overall', 'rank_gender',
+                                   'rank_age_group', '5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k', '40k',
+                                   'finish'])
+    lon17m = pd.read_csv('../data/scraped_data/london_marathon_2017_M.csv', sep='|',
+                         usecols=['year', 'bib', 'age_group', 'gender', 'country', 'overall', 'rank_gender',
+                                  'rank_age_group', '5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k', '40k',
+                                  'finish'])
+    lon17me = pd.read_csv('../data/scraped_data/london_marathon_2017_M_elite.csv', sep='|',
+                          usecols=['year', 'bib', 'age_group', 'gender', 'country', 'overall', 'rank_gender',
+                                   'rank_age_group', '5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k', '40k',
+                                   'finish'])
+    lon17w = pd.read_csv('../data/scraped_data/london_marathon_2017_W.csv', sep='|',
+                         usecols=['year', 'bib', 'age_group', 'gender', 'country', 'overall', 'rank_gender',
+                                  'rank_age_group', '5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k', '40k',
+                                  'finish'])
+    lon17we = pd.read_csv('../data/scraped_data/london_marathon_2017_W_elite.csv', sep='|',
+                          usecols=['year', 'bib', 'age_group', 'gender', 'country', 'overall', 'rank_gender',
+                                   'rank_age_group', '5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k', '40k',
+                                   'finish'])
+
+    london_results = lon14m.append([lon14me, lon14w, lon14we, lon15m, lon15me, lon15w, lon15we, lon16m, lon16me, lon16w,
+                                    lon16we, lon17m, lon17me, lon17w, lon17we], ignore_index=True)
+
+    london_results['city'] = None
+    london_results['state'] = None
+    london_results['host_city'] = 'London'
+
+    return london_results
+
+
+def process_berlin_data():
+    """
+    Method to import, transform, and combine Berlin Marathon data.
+
+    :return: DataFrame of transformed and combined Berlin Marathon data.
+    :rtype: pandas.DataFrame
+    """
+    ber14m = pd.read_csv('../data/scraped_data/london_marathon_2014_M.csv', sep='|',
+                         usecols=['year', 'bib', 'age_group', 'gender', 'country', 'overall', 'rank_gender',
+                                  'rank_age_group', '5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k', '40k',
+                                  'finish'])
+    ber14w = pd.read_csv('../data/scraped_data/london_marathon_2014_M_elite.csv', sep='|',
+                         usecols=['year', 'bib', 'age_group', 'gender', 'country', 'overall', 'rank_gender',
+                                  'rank_age_group', '5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k', '40k',
+                                  'finish'])
+    ber15m = pd.read_csv('../data/scraped_data/london_marathon_2014_W.csv', sep='|',
+                         usecols=['year', 'bib', 'age_group', 'gender', 'country', 'overall', 'rank_gender',
+                                  'rank_age_group', '5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k', '40k',
+                                  'finish'])
+    ber15w = pd.read_csv('../data/scraped_data/london_marathon_2014_W_elite.csv', sep='|',
+                         usecols=['year', 'bib', 'age_group', 'gender', 'country', 'overall', 'rank_gender',
+                                  'rank_age_group', '5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k', '40k',
+                                  'finish'])
+    ber16m = pd.read_csv('../data/scraped_data/london_marathon_2015_M.csv', sep='|',
+                         usecols=['year', 'bib', 'age_group', 'gender', 'country', 'overall', 'rank_gender',
+                                  'rank_age_group', '5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k', '40k',
+                                  'finish'])
+    ber16w = pd.read_csv('../data/scraped_data/london_marathon_2015_M_elite.csv', sep='|',
+                         usecols=['year', 'bib', 'age_group', 'gender', 'country', 'overall', 'rank_gender',
+                                  'rank_age_group', '5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k', '40k',
+                                  'finish'])
+    ber17m = pd.read_csv('../data/scraped_data/london_marathon_2015_W.csv', sep='|',
+                         usecols=['year', 'bib', 'age_group', 'gender', 'country', 'overall', 'rank_gender',
+                                  'rank_age_group', '5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k', '40k',
+                                  'finish'])
+    ber17w = pd.read_csv('../data/scraped_data/london_marathon_2015_W_elite.csv', sep='|',
+                         usecols=['year', 'bib', 'age_group', 'gender', 'country', 'overall', 'rank_gender',
+                                  'rank_age_group', '5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k', '40k',
+                                  'finish'])
+
+    berlin_results = ber14m.append([ber14w, ber15m, ber15w, ber16m, ber16w, ber17m, ber17w], ignore_index=True)
+
+    berlin_results['city'] = None
+    berlin_results['state'] = None
+    berlin_results['host_city'] = 'Berlin'
+
+    return berlin_results
