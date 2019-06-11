@@ -16,7 +16,7 @@ EXTERNAL_STYLESHEETS = ["https://codepen.io/chriddyp/pen/bWLwgP.css"]
 
 app = dash.Dash(__name__, external_stylesheets=EXTERNAL_STYLESHEETS)
 
-df = pd.read_csv("bostonnycchicago.csv")
+df = pd.read_csv("../data/combined_data/data_agg.csv")
 
 # pull the list of demographic variables from the data itself
 # include 'all' so user can view data without slicing it
@@ -83,6 +83,10 @@ app.layout = html.Div(
             "If you enter half and full marathon times, you will see your split ratio marked below in blue."
         ),
         dcc.Graph(id="split-hist"),
+        html.H6("Your Basic Stats"),
+        html.Table([
+            html.Tr([html.Td(['Your Overall Pace:']), html.Td(id='overall_pace')]),
+        ]),
     ]
 )
 
@@ -410,6 +414,53 @@ def update_hist(
         ),
     }
 
+@app.callback(
+    Output("overall_pace", "children"),
+    [Input("submit-button", "n_clicks")],
+    [
+        State("5k-input", "value"),
+        State("10k-input", "value"),
+        State("15k-input", "value"),
+        State("20k-input", "value"),
+        State("half-input", "value"),
+        State("25k-input", "value"),
+        State("30k-input", "value"),
+        State("35k-input", "value"),
+        State("40k-input", "value"),
+        State("full-input", "value"),
+    ],
+)
+def update_table(
+    n_clicks,
+    user5k,
+    user10k,
+    user15k,
+    user20k,
+    userhalf,
+    user25k,
+    user30k,
+    user35k,
+    user40k,
+    userfull,
+):
+    
+    # create variables needed to interpret user's split data
+    user_paces = [
+        user5k,
+        user10k,
+        user15k,
+        user20k,
+        userhalf,
+        user25k,
+        user30k,
+        user35k,
+        user40k,
+        userfull,
+    ]
+    
+    # take user's splits as text input and return average overall pace
+    overall_pace = dash_functions.get_overall_pace(user_paces)
+    return("%s minutes/km" % (overall_pace))
 
 if __name__ == "__main__":
     app.run_server(debug=False)
