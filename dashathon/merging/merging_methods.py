@@ -212,5 +212,6 @@ def combine_boston_data(list_dfs):
     """
     df_combine = pd.concat(list_dfs, sort=True)
     df_combine = append_age_banding(df_combine)
+    df_combine.drop(['pace', 'Proj Time', 'Unnamed: 0'], axis=1, inplace=True)
 
     return df_combine
