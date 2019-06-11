@@ -127,3 +127,23 @@ def test_combine_boston_data():
 
 def test_pipe_reader():
     assert merge.pipe_reader('../data/scraped_data/chicago_marathon_2017_M.csv').shape == (22824, 20)
+
+
+def test_process_boston_data():
+    assert merge.process_boston_data().shape == (127545, 26)
+
+
+def test_process_nyc_data():
+    assert merge.process_nyc_data().shape == (200288, 27)
+
+
+def test_process_chicago_data():
+    assert merge.process_chicago_data().shape == (162914, 27)
+
+
+def test_process_london_data():
+    assert merge.process_london_data().shape == (151872, 21)
+
+
+def test_process_berlin_data():
+    assert merge.process_berlin_data().shape == (73547, 21)
