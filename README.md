@@ -28,7 +28,7 @@ The participation rate in marathons is increasing year by year, rendering a huge
 ## License Information
 The MIT License is a permissive free software license originating at the Massachusetts Institute of Technology (MIT). As a permissive license, it puts only very limited restriction on reuse and has therefore an excellent license compatibility. For detailed description of the contents of license please refer to the file LICENSE.
 
-## Getting the dash working
+## Getting the dashboard
 * Install dependencies (listed in the requirements file)
 * Clone the repo
 * Run the app_final.py in dashathon/dashboard
