@@ -59,14 +59,14 @@ def convert_string_to_seconds(time_str):
     """
     Convert time in a string format 'HH:MM:SS' into (int) seconds.
 
-    :param time_str: Time in a string format 'HH:MM:SS'
+    :param str time_str: Time in a string format 'HH:MM:SS'
     :return: Time expressed in seconds
     :rtype: int
     """
-    try:
+    if type(time_str).__name__ == 'str':
         hours_str, minutes_str, seconds_str = time_str.split(':')
         return int(hours_str) * 3600 + int(minutes_str) * 60 + int(seconds_str)
-    except:
+    else:
         return np.nan
 
 
@@ -212,5 +212,28 @@ def combine_boston_data(list_dfs):
     """
     df_combine = pd.concat(list_dfs, sort=True)
     df_combine = append_age_banding(df_combine)
+    df_combine.drop(['pace', 'Proj Time', 'Unnamed: 0'], axis=1, inplace=True)
 
     return df_combine
+
+
+def pipe_reader(input_file):
+    """
+    Read datasets without pandas read_csv when we have a pipe delimiter dataset
+    with commas inside columns
+
+    :param str input_file: File path
+    :return: The pipe delimited file as a DataFrame
+    :rtype: pandas.DataFrame
+    """
+    with open(input_file, 'r') as f:
+        temp_file = f.read()
+    temp_file = temp_file.split('\n')
+    lis = []
+    for row in temp_file:
+        row = row.split('|')
+        if len(row) == 20:
+            lis.append(row)
+    temp_df = pd.DataFrame(lis, columns=lis[0])
+    temp_df = temp_df.drop(0, axis=0)
+    return temp_df
