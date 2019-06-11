@@ -5,14 +5,21 @@
 The data manager forms the backbone of the tool. It involved sub-components working in unison to produce input needed for final product output. Here are the sub-components working for the data manager-
 ##### Data Scraping and Storage:
 Web scraping is an online data acquisition method where selected info is programmatically downloaded from a website. 
-Most marathon websites publically post details about their participants online, including split times. Web scraping for the Chicago, London, and Berlin marathons yeilds more split time data and produces a more credible dashboard. Main Python packages used are mechanize for completing web forms and bs4 for parsing html. The data scraping component manages corner cases such as missing data, inconsistent formatting, ascii vs unicode, etc.
+Most marathon websites publically post details about their participants online, including split times. 
+* Web scraping for the Chicago, London, and Berlin marathons yeilds more split time data and produces a more credible dashboard. Main Python packages used are mechanize for completing web forms and bs4 for parsing html. 
+* The data scraping component manages corner cases such as missing data, inconsistent formatting, ascii vs unicode, etc.
 ##### Data Merger: 
-Data inflow is from multiple distinct sources, the direct data buckets, and the web scraped data. The data merging tool performs basic cleaning and drops runners with unintelligible or missing finish times were dropped. Since all large race datasets contain missing splits due to the imperfect nature of timing mats and chips, it does not drop runners with individual missing splits mid-race. It takes care of data type conversion, for example, all time units were converted to a base unit of seconds. Another important task it performs is that runners are binned based on age, using the parameters by which the Boston Athletic Association issues age group awards (these are common race age groups). All years were merged based on key data: gender, age, age group, split times, finish time, rank, race year, etc. by the data merger component
+Data inflow is from multiple distinct sources, the direct data buckets, and the web scraped data. 
+* The data merging tool performs basic cleaning and drops runners with unintelligible or missing finish times were dropped.
+* Since all large race datasets contain missing splits due to the imperfect nature of timing mats and chips, it does not drop runners with individual missing splits mid-race. 
+* It takes care of data type conversion, for example, all time units were converted to a base unit of seconds. 
+* Another important task it performs is that runners are binned based on age, using the parameters by which the Boston Athletic Association issues age group awards (these are common race age groups). 
+* All years were merged based on key data: gender, age, age group, split times, finish time, rank, race year, etc. by the data merger
 
 ### Analytics Manager
 The analytics manager is an assistant to the runner. It takes in inputs of time milestones from the user, and it establishes a comparison between user metrics and metrics from competitors in the previous years. It calculates the statistics like age and gender based progress relative to runners from the past year, their standing with respect to the running technique they follow and statistics informing them the specific regions they need to work on to achieve better standings for the marathon they are training for. It calculates user performance relative to the crowd average and the top 10 percentile of the demography. Along with that, this component takes care of basic Exploratory Analysis needed to establish metrics important to the user for improving themselves over time. Analytics Manager form the crux of the tool.
 
-### Visualization Manager: 
+### Visualization Manager 
 In a nutshell, the visualization manager takes input from the analytics manager and it displays metrics and relative numbers/statistics which would help the user measure themselves against competitors, therefore, helping them improve their training approach. Dash forms the backbone of the visualization manager. Here are some sub-components attached to it-
 ##### User Interaction:
 This component works on the human-computer interaction part, where the user is allowed to enter basic information about themselves and their run. The user enters timing metrics for the given splits (5K time-40K time), along with basic details such as age and gender.
