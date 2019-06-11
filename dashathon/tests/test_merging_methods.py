@@ -123,3 +123,7 @@ def test_combine_boston_data():
     df_test = df_test.reindex(columns=headers)
 
     assert df_expected.equals(df_test)
+
+
+def test_pipe_reader():
+    assert merge.pipe_reader('../data/scraped_data/chicago_marathon_2017_M.csv').shape == (22824, 20)
