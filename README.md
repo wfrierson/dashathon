@@ -16,6 +16,7 @@ The participation rate in marathons is increasing year by year, rendering a huge
 * Python 3.0 and above
 * HTML
 * Javascript
+* Dash
 
 ## Directory Structure
 
