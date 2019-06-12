@@ -129,11 +129,12 @@ def get_fatigue_zone(user_numeric, split_list):
     :param array user_numeric: an array of floats giving user paces in min/km
     :return str fatigue_zone: the name of the split where user's pace slowest
     """
+    user_numeric_c = user_numeric.copy()
     for i in range (len(split_list)):
-        if math.isnan(user_numeric[i]):
-            user_numeric[i] = 0
-    slowest_pace = max(user_numeric)
-    slowest_pace_index = user_numeric.index(slowest_pace)
+        if math.isnan(user_numeric_c[i]):
+            user_numeric_c[i] = 0
+    slowest_pace = max(user_numeric_c)
+    slowest_pace_index = user_numeric_c.index(slowest_pace)
     fatigue_zone = split_list[slowest_pace_index]
     return fatigue_zone
 

@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/wfrierson/dashathon.svg?branch=master)](https://travis-ci.org/wfrierson/dashathon)
+[![Build Status](https://travis-ci.org/wfrierson/dashathon.svg?branch=master)](https://travis-ci.org/wfrierson/dashathon) [![Coverage Status](https://coveralls.io/repos/github/wfrierson/dashathon/badge.svg?branch=master)](https://coveralls.io/github/wfrierson/dashathon?branch=master) [![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](/LICENSE) ![contributors](https://img.shields.io/github/contributors/wfrierson/dashathon.svg) ![codesize](https://img.shields.io/github/languages/code-size/wfrierson/dashathon.svg)
 
 # Dashathon: a marathon training tool for runners
 
@@ -32,6 +32,11 @@ The MIT License is a permissive free software license originating at the Massach
 * Install dependencies (listed in the requirements file)
 * Clone the repo
 * Run the app_final.py in dashathon/dashboard
+
+## Usage Example
+[![Usage Example 1](https://github.com/wfrierson/dashathon/blob/master/doc/ex_1.png)]
+[![Usage Example 2](https://github.com/wfrierson/dashathon/blob/master/doc/ex_2.png)]
+[![Usage Example 3](https://github.com/wfrierson/dashathon/blob/master/doc/ex_3.png)]
 
 ## Organization of the project
 

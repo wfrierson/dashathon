@@ -247,15 +247,15 @@ def process_boston_data():
     :rtype: pandas.DataFrame
     """
     # Read in data
-    llimllib_boston_results_2013 = pd.read_csv('../data/external_data/llimllib_boston_results_2013.csv',
+    llimllib_boston_results_2013 = pd.read_csv('dashathon/data/external_data/llimllib_boston_results_2013.csv',
                                                delimiter=',')
-    llimllib_boston_results_2014 = pd.read_csv('../data/external_data/llimllib_boston_results_2014.csv',
+    llimllib_boston_results_2014 = pd.read_csv('dashathon/data/external_data/llimllib_boston_results_2014.csv',
                                                delimiter=',')
-    rojour_boston_results_2015 = pd.read_csv('../data/external_data/rojour_boston_results_2015.csv',
+    rojour_boston_results_2015 = pd.read_csv('dashathon/data/external_data/rojour_boston_results_2015.csv',
                                              delimiter=',')
-    rojour_boston_results_2016 = pd.read_csv('../data/external_data/rojour_boston_results_2016.csv',
+    rojour_boston_results_2016 = pd.read_csv('dashathon/data/external_data/rojour_boston_results_2016.csv',
                                              delimiter=',')
-    rojour_boston_results_2017 = pd.read_csv('../data/external_data/rojour_boston_results_2017.csv',
+    rojour_boston_results_2017 = pd.read_csv('dashathon/data/external_data/rojour_boston_results_2017.csv',
                                              delimiter=',')
 
     # Transform data
@@ -285,10 +285,10 @@ def process_nyc_data():
     :return: DataFrame of transformed and combine NYC Marathon data.
     :rtype: pandas.DataFrame
     """
-    andreanr_nyc_results_2015 = pd.read_csv('../data/external_data/andreanr_nyc_results_2015.csv')
-    andreanr_nyc_results_2016 = pd.read_csv('../data/external_data/andreanr_nyc_results_2016.csv')
-    andreanr_nyc_results_2017 = pd.read_csv('../data/external_data/andreanr_nyc_results_2017.csv')
-    andreanr_nyc_results_2018 = pd.read_csv('../data/external_data/andreanr_nyc_results_2018.csv')
+    andreanr_nyc_results_2015 = pd.read_csv('dashathon/data/external_data/andreanr_nyc_results_2015.csv')
+    andreanr_nyc_results_2016 = pd.read_csv('dashathon/data/external_data/andreanr_nyc_results_2016.csv')
+    andreanr_nyc_results_2017 = pd.read_csv('dashathon/data/external_data/andreanr_nyc_results_2017.csv')
+    andreanr_nyc_results_2018 = pd.read_csv('dashathon/data/external_data/andreanr_nyc_results_2018.csv')
 
     # Merging all nyc datasets first
     andreanr_nyc_results = andreanr_nyc_results_2015.append([andreanr_nyc_results_2016, andreanr_nyc_results_2017,
@@ -341,14 +341,14 @@ def process_chicago_data():
     :return: DataFrame of transformed and combined Chicago Marathon data.
     :rtype: pandas.DataFrame
     """
-    chi14m = pipe_reader('../data/scraped_data/chicago_marathon_2014_M.csv')
-    chi14w = pipe_reader('../data/scraped_data/chicago_marathon_2014_W.csv')
-    chi15m = pipe_reader('../data/scraped_data/chicago_marathon_2015_M.csv')
-    chi15w = pipe_reader('../data/scraped_data/chicago_marathon_2015_W.csv')
-    chi16m = pipe_reader('../data/scraped_data/chicago_marathon_2016_M.csv')
-    chi16w = pipe_reader('../data/scraped_data/chicago_marathon_2016_W.csv')
-    chi17m = pipe_reader('../data/scraped_data/chicago_marathon_2017_M.csv')
-    chi17w = pipe_reader('../data/scraped_data/chicago_marathon_2017_W.csv')
+    chi14m = pipe_reader('dashathon/data/scraped_data/chicago_marathon_2014_M.csv')
+    chi14w = pipe_reader('dashathon/data/scraped_data/chicago_marathon_2014_W.csv')
+    chi15m = pipe_reader('dashathon/data/scraped_data/chicago_marathon_2015_M.csv')
+    chi15w = pipe_reader('dashathon/data/scraped_data/chicago_marathon_2015_W.csv')
+    chi16m = pipe_reader('dashathon/data/scraped_data/chicago_marathon_2016_M.csv')
+    chi16w = pipe_reader('dashathon/data/scraped_data/chicago_marathon_2016_W.csv')
+    chi17m = pipe_reader('dashathon/data/scraped_data/chicago_marathon_2017_M.csv')
+    chi17w = pipe_reader('dashathon/data/scraped_data/chicago_marathon_2017_W.csv')
 
     # Merging all chicago datasets first
     chicago_results = chi14m.append([chi14w, chi15m, chi15w, chi16m, chi16w, chi17m, chi17w], ignore_index=True)
@@ -383,68 +383,68 @@ def process_london_data():
     :rtype: pandas.DataFrame
     """
     # Reading in the datasets
-    lon14m = pd.read_csv('../data/scraped_data/london_marathon_2014_M.csv',
+    lon14m = pd.read_csv('dashathon/data/scraped_data/london_marathon_2014_M.csv',
                          sep='|', usecols=['year', 'bib', 'age_group', 'gender', 'country', 'overall', 'rank_gender',
                                            'rank_age_group', '5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k',
                                            '40k',
                                            'finish'])
-    lon14me = pd.read_csv('../data/scraped_data/london_marathon_2014_M_elite.csv', sep='|',
+    lon14me = pd.read_csv('dashathon/data/scraped_data/london_marathon_2014_M_elite.csv', sep='|',
                           usecols=['year', 'bib', 'age_group', 'gender', 'country', 'overall', 'rank_gender',
                                    'rank_age_group', '5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k', '40k',
                                    'finish'])
-    lon14w = pd.read_csv('../data/scraped_data/london_marathon_2014_W.csv', sep='|',
+    lon14w = pd.read_csv('dashathon/data/scraped_data/london_marathon_2014_W.csv', sep='|',
                          usecols=['year', 'bib', 'age_group', 'gender', 'country', 'overall', 'rank_gender',
                                   'rank_age_group', '5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k', '40k',
                                   'finish'])
-    lon14we = pd.read_csv('../data/scraped_data/london_marathon_2014_W_elite.csv', sep='|',
+    lon14we = pd.read_csv('dashathon/data/scraped_data/london_marathon_2014_W_elite.csv', sep='|',
                           usecols=['year', 'bib', 'age_group', 'gender', 'country', 'overall', 'rank_gender',
                                    'rank_age_group', '5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k', '40k',
                                    'finish'])
-    lon15m = pd.read_csv('../data/scraped_data/london_marathon_2015_M.csv', sep='|',
+    lon15m = pd.read_csv('dashathon/data/scraped_data/london_marathon_2015_M.csv', sep='|',
                          usecols=['year', 'bib', 'age_group', 'gender', 'country', 'overall', 'rank_gender',
                                   'rank_age_group', '5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k', '40k',
                                   'finish'])
-    lon15me = pd.read_csv('../data/scraped_data/london_marathon_2015_M_elite.csv', sep='|',
+    lon15me = pd.read_csv('dashathon/data/scraped_data/london_marathon_2015_M_elite.csv', sep='|',
                           usecols=['year', 'bib', 'age_group', 'gender', 'country', 'overall', 'rank_gender',
                                    'rank_age_group', '5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k', '40k',
                                    'finish'])
-    lon15w = pd.read_csv('../data/scraped_data/london_marathon_2015_W.csv', sep='|',
+    lon15w = pd.read_csv('dashathon/data/scraped_data/london_marathon_2015_W.csv', sep='|',
                          usecols=['year', 'bib', 'age_group', 'gender', 'country', 'overall', 'rank_gender',
                                   'rank_age_group', '5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k', '40k',
                                   'finish'])
-    lon15we = pd.read_csv('../data/scraped_data/london_marathon_2015_W_elite.csv', sep='|',
+    lon15we = pd.read_csv('dashathon/data/scraped_data/london_marathon_2015_W_elite.csv', sep='|',
                           usecols=['year', 'bib', 'age_group', 'gender', 'country', 'overall', 'rank_gender',
                                    'rank_age_group', '5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k', '40k',
                                    'finish'])
-    lon16m = pd.read_csv('../data/scraped_data/london_marathon_2016_M.csv', sep='|',
+    lon16m = pd.read_csv('dashathon/data/scraped_data/london_marathon_2016_M.csv', sep='|',
                          usecols=['year', 'bib', 'age_group', 'gender', 'country', 'overall', 'rank_gender',
                                   'rank_age_group', '5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k', '40k',
                                   'finish'])
-    lon16me = pd.read_csv('../data/scraped_data/london_marathon_2016_M_elite.csv', sep='|',
+    lon16me = pd.read_csv('dashathon/data/scraped_data/london_marathon_2016_M_elite.csv', sep='|',
                           usecols=['year', 'bib', 'age_group', 'gender', 'country', 'overall', 'rank_gender',
                                    'rank_age_group', '5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k', '40k',
                                    'finish'])
-    lon16w = pd.read_csv('../data/scraped_data/london_marathon_2016_W.csv', sep='|',
+    lon16w = pd.read_csv('dashathon/data/scraped_data/london_marathon_2016_W.csv', sep='|',
                          usecols=['year', 'bib', 'age_group', 'gender', 'country', 'overall', 'rank_gender',
                                   'rank_age_group', '5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k', '40k',
                                   'finish'])
-    lon16we = pd.read_csv('../data/scraped_data/london_marathon_2016_W_elite.csv', sep='|',
+    lon16we = pd.read_csv('dashathon/data/scraped_data/london_marathon_2016_W_elite.csv', sep='|',
                           usecols=['year', 'bib', 'age_group', 'gender', 'country', 'overall', 'rank_gender',
                                    'rank_age_group', '5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k', '40k',
                                    'finish'])
-    lon17m = pd.read_csv('../data/scraped_data/london_marathon_2017_M.csv', sep='|',
+    lon17m = pd.read_csv('dashathon/data/scraped_data/london_marathon_2017_M.csv', sep='|',
                          usecols=['year', 'bib', 'age_group', 'gender', 'country', 'overall', 'rank_gender',
                                   'rank_age_group', '5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k', '40k',
                                   'finish'])
-    lon17me = pd.read_csv('../data/scraped_data/london_marathon_2017_M_elite.csv', sep='|',
+    lon17me = pd.read_csv('dashathon/data/scraped_data/london_marathon_2017_M_elite.csv', sep='|',
                           usecols=['year', 'bib', 'age_group', 'gender', 'country', 'overall', 'rank_gender',
                                    'rank_age_group', '5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k', '40k',
                                    'finish'])
-    lon17w = pd.read_csv('../data/scraped_data/london_marathon_2017_W.csv', sep='|',
+    lon17w = pd.read_csv('dashathon/data/scraped_data/london_marathon_2017_W.csv', sep='|',
                          usecols=['year', 'bib', 'age_group', 'gender', 'country', 'overall', 'rank_gender',
                                   'rank_age_group', '5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k', '40k',
                                   'finish'])
-    lon17we = pd.read_csv('../data/scraped_data/london_marathon_2017_W_elite.csv', sep='|',
+    lon17we = pd.read_csv('dashathon/data/scraped_data/london_marathon_2017_W_elite.csv', sep='|',
                           usecols=['year', 'bib', 'age_group', 'gender', 'country', 'overall', 'rank_gender',
                                    'rank_age_group', '5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k', '40k',
                                    'finish'])
@@ -466,35 +466,35 @@ def process_berlin_data():
     :return: DataFrame of transformed and combined Berlin Marathon data.
     :rtype: pandas.DataFrame
     """
-    ber14m = pd.read_csv('../data/scraped_data/london_marathon_2014_M.csv', sep='|',
+    ber14m = pd.read_csv('dashathon/data/scraped_data/london_marathon_2014_M.csv', sep='|',
                          usecols=['year', 'bib', 'age_group', 'gender', 'country', 'overall', 'rank_gender',
                                   'rank_age_group', '5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k', '40k',
                                   'finish'])
-    ber14w = pd.read_csv('../data/scraped_data/london_marathon_2014_M_elite.csv', sep='|',
+    ber14w = pd.read_csv('dashathon/data/scraped_data/london_marathon_2014_M_elite.csv', sep='|',
                          usecols=['year', 'bib', 'age_group', 'gender', 'country', 'overall', 'rank_gender',
                                   'rank_age_group', '5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k', '40k',
                                   'finish'])
-    ber15m = pd.read_csv('../data/scraped_data/london_marathon_2014_W.csv', sep='|',
+    ber15m = pd.read_csv('dashathon/data/scraped_data/london_marathon_2014_W.csv', sep='|',
                          usecols=['year', 'bib', 'age_group', 'gender', 'country', 'overall', 'rank_gender',
                                   'rank_age_group', '5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k', '40k',
                                   'finish'])
-    ber15w = pd.read_csv('../data/scraped_data/london_marathon_2014_W_elite.csv', sep='|',
+    ber15w = pd.read_csv('dashathon/data/scraped_data/london_marathon_2014_W_elite.csv', sep='|',
                          usecols=['year', 'bib', 'age_group', 'gender', 'country', 'overall', 'rank_gender',
                                   'rank_age_group', '5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k', '40k',
                                   'finish'])
-    ber16m = pd.read_csv('../data/scraped_data/london_marathon_2015_M.csv', sep='|',
+    ber16m = pd.read_csv('dashathon/data/scraped_data/london_marathon_2015_M.csv', sep='|',
                          usecols=['year', 'bib', 'age_group', 'gender', 'country', 'overall', 'rank_gender',
                                   'rank_age_group', '5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k', '40k',
                                   'finish'])
-    ber16w = pd.read_csv('../data/scraped_data/london_marathon_2015_M_elite.csv', sep='|',
+    ber16w = pd.read_csv('dashathon/data/scraped_data/london_marathon_2015_M_elite.csv', sep='|',
                          usecols=['year', 'bib', 'age_group', 'gender', 'country', 'overall', 'rank_gender',
                                   'rank_age_group', '5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k', '40k',
                                   'finish'])
-    ber17m = pd.read_csv('../data/scraped_data/london_marathon_2015_W.csv', sep='|',
+    ber17m = pd.read_csv('dashathon/data/scraped_data/london_marathon_2015_W.csv', sep='|',
                          usecols=['year', 'bib', 'age_group', 'gender', 'country', 'overall', 'rank_gender',
                                   'rank_age_group', '5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k', '40k',
                                   'finish'])
-    ber17w = pd.read_csv('../data/scraped_data/london_marathon_2015_W_elite.csv', sep='|',
+    ber17w = pd.read_csv('dashathon/data/scraped_data/london_marathon_2015_W_elite.csv', sep='|',
                          usecols=['year', 'bib', 'age_group', 'gender', 'country', 'overall', 'rank_gender',
                                   'rank_age_group', '5k', '10k', '15k', '20k', 'half', '25k', '30k', '35k', '40k',
                                   'finish'])
@@ -549,7 +549,7 @@ def process_all_data():
 
     # Creating a new age_range column on basis of age
     dashathon_data = dashathon_data.drop(columns={'age_range'})
-    age_map = pd.read_csv('../merging/age_map.csv')
+    age_map = pd.read_csv('dashathon/merging/age_map.csv')
     dashathon_data = pd.merge(dashathon_data, age_map, on='age', how='left')
 
     # Make gender consistent across all datasets
@@ -559,7 +559,7 @@ def process_all_data():
     dashathon_data = dashathon_data.drop(columns={'pace'})
 
     # Converting three letter country names to full country names
-    country_code = pd.read_csv('../merging/country_code_web.csv', usecols=['country', 'code'], encoding='latin-1')
+    country_code = pd.read_csv('dashathon/merging/country_code_web.csv', usecols=['country', 'code'], encoding='latin-1')
     country_code = country_code.rename(columns={'country': 'country_name'})
     dashathon_data = pd.merge(dashathon_data, country_code, left_on='country', right_on='code', how='left')
     dashathon_data.country_name = dashathon_data.country_name.fillna(dashathon_data.country, inplace=True)
