@@ -96,19 +96,18 @@ def test_combine_boston_data():
     expected_llimllib_dict = {'25k': {0: 2992.2}, 'age': {0: 28}, 'division': {0: 9},
                               '10k': {0: 1090.8}, 'gender': {0: 'M'}, 'half': {0: 2455.8}, 'official_time': {0: 5454.0},
                               'bib': {0: 'W1'}, 'citizen': {0: pd.np.nan}, 'country': {0: 'CAN'}, 'overall': {0: 9},
-                              'pace': {0: 208.20000000000002}, 'state': {0: 'ON'}, '30k': {0: 3724.2}, '5k': {0: 534.0},
+                              'state': {0: 'ON'}, '30k': {0: 3724.2}, '5k': {0: 534.0},
                               'genderdiv': {0: 9}, '20k': {0: 2328.0}, '35k': {0: 4483.8}, 'city': {0: 'Toronto'},
                               '40k': {0: 5133.0}, 'year': {0: 2013}, '15k': {0: pd.np.nan},
                               'gender_place': {0: pd.np.nan}, 'age_bucket': {0: 3}}
 
     df_expected_llimllib = pd.DataFrame.from_dict(expected_llimllib_dict)
-    expected_rojour_dict = {'Unnamed: 0': {0: 0}, 'bib': {0: 3}, 'age': {0: 25},
+    expected_rojour_dict = {'bib': {0: 3}, 'age': {0: 25},
                             'gender': {0: 'M'}, 'city': {0: 'Ambo'}, 'state': {0: pd.np.nan}, 'country': {0: 'ETH'},
                             'citizen': {0: pd.np.nan}, '5k': {0: 883}, '10k': {0: 1783}, '15k': {0: 2697},
                             '20k': {0: 3629}, 'half': {0: 3842}, '25k': {0: 4567}, '30k': {0: 5520}, '35k': {0: 6479},
-                            '40k': {0: 7359}, 'pace': {0: '0:04:56'}, 'Proj Time': {0: '-'}, 'official_time': {0: 7757},
-                            'overall': {0: 1}, 'gender_place': {0: 1}, 'division': {0: 1}, 'year': {0: 2015},
-                            'genderdiv': {0: pd.np.nan}}
+                            '40k': {0: 7359}, 'official_time': {0: 7757}, 'overall': {0: 1}, 'gender_place': {0: 1},
+                            'division': {0: 1}, 'year': {0: 2015}, 'genderdiv': {0: pd.np.nan}}
 
     df_expected_rojour = pd.DataFrame.from_dict(expected_rojour_dict)
     df_expected = pd.concat([df_expected_llimllib, df_expected_rojour])
@@ -124,3 +123,31 @@ def test_combine_boston_data():
     df_test = df_test.reindex(columns=headers)
 
     assert df_expected.equals(df_test)
+
+
+def test_pipe_reader():
+    assert merge.pipe_reader('../data/scraped_data/chicago_marathon_2017_M.csv').shape == (22824, 20)
+
+
+def test_process_boston_data():
+    assert merge.process_boston_data().shape == (127545, 26)
+
+
+def test_process_nyc_data():
+    assert merge.process_nyc_data().shape == (200288, 27)
+
+
+def test_process_chicago_data():
+    assert merge.process_chicago_data().shape == (162914, 27)
+
+
+def test_process_london_data():
+    assert merge.process_london_data().shape == (151872, 21)
+
+
+def test_process_berlin_data():
+    assert merge.process_berlin_data().shape == (73547, 21)
+
+
+def test_process_all_data():
+    assert merge.process_all_data().shape == (716166, 26)
