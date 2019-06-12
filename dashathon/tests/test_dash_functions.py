@@ -1,29 +1,39 @@
+import os
+
 import pandas as pd
 from pandas.api.types import is_numeric_dtype
 import numpy as np
 import unittest
 import dashathon.dashboard.dash_functions as dash_functions
 
+
+ALL_MARATHON_DATA = 'dashathon/data/combined_data/all_marathon_results.csv'
+
+
 class TestDashFunctions(unittest.TestCase):
+
+    def setUp(self):
+        self.file_dir = os.path.dirname(os.path.realpath(__file__))
 
     # check that the subset function does not remove any rows when
     # age and gender are both 'all'
     def test_subset_nosubset(self):
-        df = pd.read_csv('bostonnycchicago.csv')
+
+        df = pd.read_csv(ALL_MARATHON_DATA)
         age = 'all'
         gender = 'all'
         result = dash_functions.get_subset(df, age, gender)
-        self.AssertEqual(df.count, result.count)
+        self.assertEqual(df.shape[0], result.shape[0])
     
     # check that there is only one unique value for gender
     # when a specific value for gender is selected
     def test_subset_gender(self):
-        df = pd.read_csv('bostonnycchicago.csv')
+        df = pd.read_csv(ALL_MARATHON_DATA)
         age = 'all'
         gender = 'M'
         result = dash_functions.get_subset(df, age, gender)
         genders = result['gender'].unique()
-        self.AssertEqual(1, len(genders))
+        self.assertEqual(1, len(genders))
       
     # check that subsetting based on the 75th quantile leaves
     # the expected data
@@ -37,7 +47,7 @@ class TestDashFunctions(unittest.TestCase):
         temp_df['overall'] = fake_data
         result = dash_functions.get_top(temp_df, 0.75)
         max_ = result['overall'].max()
-        self.AssertEqual(7, max_)
+        self.assertEqual(7, max_)
 
     # call get_user_paces with data that is half valid and half invalid
     # check that resulting list contains five numpy nan values
@@ -48,7 +58,7 @@ class TestDashFunctions(unittest.TestCase):
         temp_df = pd.DataFrame()
         temp_df['col'] = result
         nans = temp_df['col'].isna().sum()
-        self.AssertEqual(5, nans)
+        self.assertEqual(5, nans)
 
     # call get_user_paces with data that is 100%
     # check that result is entirely numeric   
@@ -58,7 +68,7 @@ class TestDashFunctions(unittest.TestCase):
         result = dash_functions.get_user_paces(user_splits)
         temp_df = pd.DataFrame()
         temp_df['col'] = result
-        self.AssertEqual(is_numeric_dtype(temp_df['col']), True)
+        self.assertEqual(is_numeric_dtype(temp_df['col']), True)
   
     # call get_user_times with data that is half valid and half invalid
     # check that resulting list contains five numpy nan values
@@ -69,7 +79,7 @@ class TestDashFunctions(unittest.TestCase):
         temp_df = pd.DataFrame()
         temp_df['col'] = result
         nans = temp_df['col'].isna().sum()
-        self.AssertEqual(5, nans)
+        self.assertEqual(5, nans)
 
     # call get_user_times with data that is 100%
     # check that result is entirely numeric
@@ -79,27 +89,27 @@ class TestDashFunctions(unittest.TestCase):
         result = dash_functions.get_user_times(user_splits)
         temp_df = pd.DataFrame()
         temp_df['col'] = result
-        self.AssertEqual(is_numeric_dtype(temp_df['col']), True)
+        self.assertEqual(is_numeric_dtype(temp_df['col']), True)
 
     # test get_mean_pace function on real data and check for correct
     # number of results
     def test_get_mean_pace_real_data(self):
-        df = pd.read_csv('bostonnycchicago.csv')
+        df = pd.read_csv(ALL_MARATHON_DATA)
         split_list = ['5k', '10k', '15k', '20k', 'half', '25k',
                       '30k', '35k', '40k', 'official_time']
         result = dash_functions.get_mean_pace(df, split_list)
-        self.AssertEqual(len(result), 10)
+        self.assertEqual(len(result), 10)
 
     # test get_mean_pace function on real data and check for correct
     # type of results
-    def test_get_mean_pace_real_data(self):
-        df = pd.read_csv('bostonnycchicago.csv')
+    def test_get_mean_pace_real_data_(self):
+        df = pd.read_csv(ALL_MARATHON_DATA)
         split_list = ['5k', '10k', '15k', '20k', 'half', '25k',
                       '30k', '35k', '40k', 'official_time']
         result = dash_functions.get_mean_pace(df, split_list)
         temp_df = pd.DataFrame()
         temp_df['col'] = result
-        self.AssertEqual(is_numeric_dtype(temp_df['col']), True)
+        self.assertEqual(is_numeric_dtype(temp_df['col']), True)
 
     # test get_mean_pace function on synthetic data and check
     # for exact expected results
@@ -119,7 +129,7 @@ class TestDashFunctions(unittest.TestCase):
         df['official_time'] = [0, 0, 0]
         result = dash_functions.get_mean_pace(df, split_list)
         test_means = [1.0, 0.5, 2.0, 0.5, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0]
-        self.AssertEqual((result == test_means), True)
+        self.assertEqual((result == test_means), True)
 
     # test get_split_ratio function on synthetic data and check
     # for exact expected results
@@ -128,7 +138,7 @@ class TestDashFunctions(unittest.TestCase):
         df['half'] = [200]
         df['official_time'] = [300]
         result = dash_functions.get_split_ratio(df)
-        self.AssertEqual(result.iloc[0]['split_ratio'], 0.5)
+        self.assertEqual(result.iloc[0]['split_ratio'], 0.5)
     
     # test get_fatigue_zone function on synthetic data and check
     # for exact expected result
@@ -137,4 +147,4 @@ class TestDashFunctions(unittest.TestCase):
         split_list = ['5k', '10k', '15k', '20k', 'half', '25k',
                       '30k', '35k', '40k', 'official_time']
         result = dash_functions.get_fatigue_zone(user_numeric, split_list)
-        self.AssertEqual(result, 'half')
+        self.assertEqual(result, 'half')
