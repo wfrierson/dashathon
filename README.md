@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/wfrierson/dashathon.svg?branch=master)](https://travis-ci.org/wfrierson/dashathon) [![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](/LICENSE) ![contributors](https://img.shields.io/github/contributors/wfrierson/dashathon.svg) ![codesize](https://img.shields.io/github/languages/code-size/wfrierson/dashathon.svg)
+[![Build Status](https://travis-ci.org/wfrierson/dashathon.svg?branch=master)](https://travis-ci.org/wfrierson/dashathon) [![Coverage Status](https://coveralls.io/repos/github/wfrierson/dashathon/badge.svg?branch=master)](https://coveralls.io/github/wfrierson/dashathon?branch=master) [![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](/LICENSE) ![contributors](https://img.shields.io/github/contributors/wfrierson/dashathon.svg) ![codesize](https://img.shields.io/github/languages/code-size/wfrierson/dashathon.svg)
 
 # Dashathon: a marathon training tool for runners
 
