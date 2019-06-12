@@ -3,3 +3,6 @@
 __pycache__/
 .DS_Store
 data_agg.csv
+venv/
+ubvenv/
+.coverage

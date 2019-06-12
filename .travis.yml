@@ -2,15 +2,16 @@ language: python
 python:
   - "3.6"
 before_install:
-  - "pip install codecov"
+  - "pip install coverage"
+  - "pip install coveralls"
   - "pip install -U pip"
+  - "pip install -r requirements.txt"
   - "python setup.py install"
 script: 
-  - python dashathon/tests/test_scraping_methods.py
-  - python dashathon/tests/test_merging_methods.py
-  - python dashathon/tests/test_dash_functions.py
+  - coverage run -m unittest discover dashathon
 branches:
   only:
     - master
 after_success:
-  - codecov
+  - coverage report
+  - coveralls
