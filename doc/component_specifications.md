@@ -1,6 +1,8 @@
 
 # Component Specifications
 
+![Component Design](ComponentDesign.png)
+
 ### Data Manager
 The data manager forms the backbone of the tool. It involved sub-components working in unison to produce input needed for final product output. Here are the sub-components working for the data manager-
 #### Data Scraping and Storage:
