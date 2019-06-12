@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/wfrierson/dashathon.svg?branch=master)](https://travis-ci.org/wfrierson/dashathon)
+[![Build Status](https://travis-ci.org/wfrierson/dashathon.svg?branch=master)](https://travis-ci.org/wfrierson/dashathon) [![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](/LICENSE) ![contributors](https://img.shields.io/github/contributors/wfrierson/dashathon.svg) ![codesize](https://img.shields.io/github/languages/code-size/wfrierson/dashathon.svg)
 
 # Dashathon: a marathon training tool for runners
 
@@ -27,6 +27,11 @@ The participation rate in marathons is increasing year by year, rendering a huge
 
 ## License Information
 The MIT License is a permissive free software license originating at the Massachusetts Institute of Technology (MIT). As a permissive license, it puts only very limited restriction on reuse and has therefore an excellent license compatibility. For detailed description of the contents of license please refer to the file LICENSE.
+
+## Getting the dashboard
+* Install dependencies (listed in the requirements file)
+* Clone the repo
+* Run the app_final.py in dashathon/dashboard
 
 ## Organization of the project
 
