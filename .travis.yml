@@ -2,6 +2,7 @@ language: python
 python:
   - "3.6"
 before_install:
+  - "pip install codecov"
   - "pip install -U pip"
   - "python setup.py install"
 script: 
@@ -11,3 +12,5 @@ script:
 branches:
   only:
     - master
+after_success:
+  - codecov
