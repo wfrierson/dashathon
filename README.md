@@ -54,13 +54,8 @@ dashathon/
 │-  setup.py
 │   
 ├───analysis/
-│   │-  app4.py
-│   │-  app_pylint_checked.py
-│   │-  app_split_ratio.py
-│   │-  boston_all_years_nan.csv
-│   │-  data_agg.csv
-│   │-  EDA.R
 │   │-  Project EDA.ipynb
+│   │-  README.md
 │           
 ├───dashathon/
 │   │-  __init__.py
