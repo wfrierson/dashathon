@@ -34,9 +34,9 @@ The MIT License is a permissive free software license originating at the Massach
 * Run the app_final.py in dashathon/dashboard
 
 ## Usage Example
-[![Usage Example 1](https://github.com/wfrierson/dashathon/blob/master/doc/ex_1.png)]
-[![Usage Example 2](https://github.com/wfrierson/dashathon/blob/master/doc/ex_2.png)]
-[![Usage Example 3](https://github.com/wfrierson/dashathon/blob/master/doc/ex_3.png)]
+![Usage Example 1](https://github.com/wfrierson/dashathon/blob/master/doc/ex_1.png)
+![Usage Example 2](https://github.com/wfrierson/dashathon/blob/master/doc/ex_2.png)
+![Usage Example 3](https://github.com/wfrierson/dashathon/blob/master/doc/ex_3.png)
 
 ## Organization of the project
 
