@@ -8,7 +8,7 @@ colorama==0.4.1
 freeze==1.0.10
 html5lib==1.0.1
 importlib-metadata==0.17
-lxml==4.3.3
+lxml==4.6.2
 mechanize==0.4.2
 more-itertools==7.0.0
 numpy==1.16.4
