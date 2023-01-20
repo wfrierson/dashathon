@@ -9,7 +9,7 @@ freeze==1.0.10
 html5lib==1.0.1
 importlib-metadata==0.17
 lxml==4.3.3
-mechanize==0.4.2
+mechanize==0.4.6
 more-itertools==7.0.0
 numpy==1.16.4
 packaging==19.0
